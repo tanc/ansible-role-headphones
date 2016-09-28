@@ -1,0 +1,47 @@
+---
+- name: 'Create the user that the headphones daemon will run as'
+  user:
+    name: "{{ headphones_daemon_user }}"
+
+- name: 'Create the headphones source directory'
+  file:
+    path: "{{ headphones_app_src_directory }}"
+    state: 'directory'
+    owner: "{{ headphones_daemon_user }}"
+    mode: '0755'
+
+- name: 'Git clone the headphones source locally'
+  git:
+    clone: 'yes'
+    dest: "{{ headphones_app_src_directory }}"
+    force: 'yes'
+    repo: 'https://github.com/rembo10/headphones.git'
+    version: '{{ headphones_app_version }}'
+  notify: 'restart-ansible-role-headphones'
+
+- name: 'Set the contents of the /etc/default/headphones file appropriately'
+  template:
+    src: 'headphones.j2'
+    dest: '/etc/default/headphones'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: 'restart-ansible-role-headphones'
+
+- name: 'Create the headphones init script'
+  copy:
+    src: 'init.ubuntu'
+    dest: '/etc/init.d/headphones'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+    force: 'yes'
+  notify: 'restart-ansible-role-headphones'
+
+- meta: flush_handlers
+
+- name: 'Start the headphones daemon'
+  service:
+    name: 'headphones'
+    state: 'started'
+    enabled: 'yes'

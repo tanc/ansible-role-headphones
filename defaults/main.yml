@@ -1,0 +1,11 @@
+---
+# Application config
+headphones_app_src_directory: '/opt/headphones_src'
+headphones_app_version: 'v0.5.16'  # Corresponding release tag
+headphones_app_data_directory: '/opt/headphones_data'
+headphones_app_pid_file: '/tmp/headphones.pid'
+
+# Daemon config
+headphones_daemon_user: 'headphonesdaemon'
+headphones_daemon_port: '8181'
+headphones_daemon_extra_opts: " --config={{ headphones_app_data_directory}}/config.ini"
