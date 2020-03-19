@@ -1,10 +1,8 @@
 ---
 - name: 'Install a few pre-requisite packages'
   apt:
-    name: "{{ item }}"
-    state: 'installed'
-  with_items:
-    - 'shntool'
+    name: 'shntool'
+    state: 'present'
 
 - name: 'Create the user that the headphones daemon will run as'
   user:
