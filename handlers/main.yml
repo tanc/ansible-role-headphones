@@ -1,5 +1,7 @@
 ---
 - name: 'restart-ansible-role-headphones'
-  service:
-    name: 'headphones'
-    state: 'restarted'
+  systemd:
+    name: headphones
+    state: restarted
+    daemon_reload: yes
+    
