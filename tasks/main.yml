@@ -35,8 +35,8 @@
 
 - name: 'Create the headphones init script'
   copy:
-    src: 'init.ubuntu'
-    dest: '/etc/init.d/headphones'
+    src: 'init.debian'
+    dest: '/etc/systemd/system/headphones.service'
     owner: 'root'
     group: 'root'
     mode: '0755'
